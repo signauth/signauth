@@ -39,7 +39,7 @@ importers:
       mocha: 7.2.0
       nyc: 15.1.0
     specifiers:
-      '@signauth/crypto': 'workspace:~0.0.1'
+      '@signauth/crypto': 'workspace:~0.0.3'
       chai: ^4.2.0
       cross-env: ^7.0.2
       eslint: ^6.8.0

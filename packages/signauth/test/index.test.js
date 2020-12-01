@@ -35,15 +35,15 @@ describe('#SignAuth', function () {
   })
 
   it('should generate a new challenge for the user', async function () {
-    let challenge = signAuth.newChallengeForUser(userid)
+    let challenge = signAuth.newChallenge(userid)
     assert.isTrue(challenge.now <= Date.now())
     assert.equal(challenge.expiresIn, 10)
     assert.equal(SignAuth.Crypto.fromBase32(challenge.bytes).length, 8)
-    assert.equal(challenge.nonce, signAuth.nonce)
+    assert.equal(challenge.nonce, 1)
     assert.equal(challenge.hash, signAuth.hashChallenge(challenge))
 
     try {
-      signAuth.newChallengeForUser(null)
+      signAuth.newChallenge(null)
     } catch (e) {
       assert.equal(e.message, 'userid must be a not empty string')
     }
@@ -51,10 +51,14 @@ describe('#SignAuth', function () {
   })
 
   it('should validate a challenge', async function () {
-    let challenge = signAuth.newChallengeForUser(userid)
+    let challenge = signAuth.newChallenge(userid)
     assert.isTrue(signAuth.validateChallenge(challenge))
-    challenge = {}
-    assert.isFalse(signAuth.validateChallenge(challenge))
+    try {
+      challenge = {}
+      signAuth.validateChallenge(challenge)
+    } catch (e) {
+      assert.equal(e.message, 'invalid challenge')
+    }
 
   })
 
@@ -66,21 +70,21 @@ describe('#SignAuth', function () {
 
   it('should get a signed challenge', async function () {
     let pair = SignAuth.getPairFromPassphrase(password)
-    let challenge = signAuth.newChallengeForUser(userid)
+    let challenge = signAuth.newChallenge(userid)
     let signature = SignAuth.signChallenge(challenge, pair.secretKey)
     assert.isTrue(signAuth.verifySignedChallenge(challenge, signature, pair.publicKey))
 
     try {
       signAuth.verifySignedChallenge({}, signature, pair.publicKey)
     } catch (e) {
-      assert.equal(e.message, 'the challenge is invalid')
+      assert.equal(e.message, 'invalid challenge')
     }
 
 
   })
 
   it('should get a challenge payload', async function () {
-    let challenge = signAuth.newChallengeForUser(userid)
+    let challenge = signAuth.newChallenge(userid)
     let pair = SignAuth.getPairFromPassphrase(password)
     let payload = SignAuth.getPayload(challenge, pair)
     assert.isTrue(signAuth.verifyPayload(payload))
