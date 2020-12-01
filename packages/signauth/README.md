@@ -56,7 +56,8 @@ In the browser when the user puts `userid` and `password` you should call a firs
 const SignAuth = require('signauth')
 
 const userid = 'sullof'
-const passphrase = 'an orange sales of odd trumpets'
+const password = 'an orange sales of odd trumpets'
+const passphrase = userid + password
 
 (async function () {
 
