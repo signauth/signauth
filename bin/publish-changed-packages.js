@@ -22,9 +22,7 @@ function checkAndPublish(dir) {
   }
 }
 
-checkAndPublish('utils', '@signauth')
-checkAndPublish('helpers', '@signauth')
-checkAndPublish('core', '@signauth')
+checkAndPublish('crypto', '@signauth')
 checkAndPublish('signauth')
 
 if (!changes) {
