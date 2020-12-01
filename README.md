@@ -95,6 +95,7 @@ get('/get-jwt-token', function (req, res) {
                     success: false,
                     error: `wrong key`
                 )
+                return
             }
         } else {
             // we save it for future logins
@@ -103,11 +104,12 @@ get('/get-jwt-token', function (req, res) {
         res.json({
             jwt: getJWTToken(userid)
         })
+    } else {
+        res.json({
+            success: false,
+            error: 'wrong payload'
+        })
     }
-    res.json({
-        success: false,
-        error: 'wrong payload'
-    })
 })
 
 
