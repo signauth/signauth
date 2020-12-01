@@ -14,6 +14,9 @@ API documentation
 
 ## History
 
+__0.0.2__
+* completing methods and testing  
+
 __0.0.1__
 * first version of the Crypto class is a simplified version of @secrez/core:Crypto  
 

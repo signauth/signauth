@@ -15,9 +15,7 @@ function checkAndGetCoverage(dir) {
   }
 }
 
-checkAndGetCoverage('utils')
-checkAndGetCoverage('helpers')
-checkAndGetCoverage('core')
+checkAndGetCoverage('crypto')
 checkAndGetCoverage('signauth')
 
 if (!changes) {

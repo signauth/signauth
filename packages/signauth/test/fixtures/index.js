@@ -1,6 +1,6 @@
 module.exports = {
+  userid: 'sullof',
   password: 'when John breaks the cronicle',
-  b32Hash: '1wpsyccjg97zmqcqm5r3t49spab9cijwwk1wa6phth1bmaccqxn',
   signaturePair: {
     publicKey: [
       144, 197, 186, 79, 209, 26, 15, 35,
@@ -17,5 +17,4 @@ module.exports = {
       46, 255, 166, 77, 178, 72, 107, 170, 124
     ]
   }
-
 }

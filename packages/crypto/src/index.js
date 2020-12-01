@@ -1,6 +1,6 @@
 /*
-This class is a simplified version of the Crypto class in @signauth/crypto
-https://github.com/secrez/secrez/packages/core
+This class is a simplified slightly-modified version of @secrez/core:Crypto
+https://github.com/secrez/secrez/blob/master/packages/core/src/Crypto.js
 **/
 
 const crypto = require('crypto')
@@ -68,7 +68,7 @@ class Crypto {
   }
 
   static isBase32String(str) {
-    let re = RegExp(`[^${Crypto.zBase32Alphabet}]+`)
+    let re = RegExp(`[^${Crypto.base32Alphabet}]+`)
     return !re.test(str)
   }
 
@@ -122,8 +122,8 @@ class Crypto {
 
 }
 
-Crypto.zBase32Alphabet = 'ybndrfg8ejkmcpqxot1uwisza345h769'
-Crypto.bs32 = basex(Crypto.zBase32Alphabet)
+Crypto.base32Alphabet = 'ybndrfg8ejkmcpqxot1uwisza345h769'
+Crypto.bs32 = basex(Crypto.base32Alphabet)
 Crypto.randomBytes = randomBytes
 
 module.exports = Crypto

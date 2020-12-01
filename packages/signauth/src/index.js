@@ -2,36 +2,76 @@ const Crypto = require('@signauth/crypto')
 
 class SignAuth {
 
-  static newChallenge(expiresIn = 60) {
-    let challenge = [
-      Date.now(),
-      expiresIn,
-      Crypto.randomBytes(8)
-    ]
+  constructor(size = 8, expiresIn = 10) {
+    if (typeof size !== 'number' || parseInt(size.toString()) !== size || size === 0) {
+      throw new Error('size must be a positive integer')
+    }
+    if (typeof expiresIn !== 'number' || parseInt(expiresIn.toString()) !== expiresIn || expiresIn === 0) {
+      throw new Error('expiresIn must be a positive integer')
+    }
+    this.salt = Crypto.getRandomString(12)
+    this.nonce = Crypto.getRandomBase32String(6)
+    this.size = size
+    this.expiresIn = expiresIn
+  }
+
+  newChallengeForUser(userid) {
+    if (typeof userid !== 'string' || userid.length === 0) {
+      throw new Error('userid must be a not empty string')
+    }
+    const challenge = {
+      userid: Crypto.b32Hash(userid),
+      now: Date.now(),
+      expiresIn: this.expiresIn,
+      nonce: this.nonce,
+      bytes: Crypto.toBase32(Crypto.randomBytes(this.size))
+    }
+    challenge.hash = this.hashChallenge(challenge)
     return challenge
   }
 
-  static validateChallenge(challenge, expectedExpiresIn = 60) {
-    return (
-        challenge[1] === expectedExpiresIn &&
-        challenge[0] + 1000 * expectedExpiresIn > Date.now() &&
-        Crypto.isUint8Array(challenge[2]) &&
-        challenge[2].length === 8
+  hashChallenge(challenge) {
+    return Crypto.b32Hash(
+        this.salt +
+        challenge.userid +
+        challenge.now +
+        this.expiresIn +
+        this.nonce +
+        challenge.bytes.toString()
     )
   }
 
-  static challengeToString(challenge) {
-    return [challenge[0], challenge[1], challenge[2].join(',')].join(';')
+  validateChallenge(challenge) {
+    return (
+        challenge.nonce === this.nonce &&
+        this.hashChallenge(challenge) === challenge.hash
+    )
   }
 
-  static challengeFromString(challenge) {
-    return challenge.split(';').map((elem, index) => {
-      if (index === 2) {
-        return Uint8Array.from(elem.split(','))
-      } else {
-        return parseInt(elem)
-      }
-    })
+  verifySignedChallenge(challenge, signature, publicKey) {
+    if (!this.validateChallenge(challenge)) {
+      throw new Error('the challenge is invalid')
+    }
+    challenge = JSON.stringify(challenge)
+    return Crypto.verifySignature(challenge, signature, publicKey)
+  }
+
+  verifyPayload(payload) {
+    return this.verifySignedChallenge(
+        payload.challenge,
+        payload.signature,
+        Crypto.fromBase32(payload.publicKey)
+    )
+  }
+
+  // static
+
+  static getPayload(challenge, pair) {
+    return {
+      challenge,
+      signature: SignAuth.signChallenge(challenge, pair.secretKey),
+      publicKey: Crypto.toBase32(pair.publicKey)
+    }
   }
 
   static getPairFromPassword(password) {
@@ -40,21 +80,8 @@ class SignAuth {
   }
 
   static signChallenge(challenge, secretKey) {
-    if (typeof challenge !== 'string') {
-      challenge = SignAuth.challengeToString(challenge)
-    }
+    challenge = JSON.stringify(challenge)
     return Crypto.getSignature(challenge, secretKey)
-  }
-
-  static verifyChallenge(challenge, expectedExpiresIn, signature, publicKey) {
-    if (typeof challenge !== 'string') {
-      challenge = SignAuth.challengeToString(challenge)
-    }
-    if (SignAuth.verifyChallenge(challenge, expectedExpiresIn)) {
-      return Crypto.verifySignature(challenge, signature, publicKey)
-    } else {
-      return false
-    }
   }
 
 }

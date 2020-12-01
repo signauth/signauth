@@ -54,7 +54,7 @@ describe('#Crypto', function () {
   it('should get a random base32 string', async function () {
     let rnd = Crypto.getRandomBase32String(3)
     assert.equal(rnd.length, 3)
-    assert.isTrue(Crypto.zBase32Alphabet.indexOf(rnd[1]) !== -1)
+    assert.isTrue(Crypto.base32Alphabet.indexOf(rnd[1]) !== -1)
   })
 
   it('should generate a sha3 in b32 format', async function () {
@@ -90,7 +90,6 @@ describe('#Crypto', function () {
   })
 
   it('should generate an ed25519 key pair from a seed', async function () {
-    let password = 'when John breaks the cronicle'
     let seed = Crypto.seedFromPassword(password)
     let pair = Crypto.generateSignatureKeyPair(seed)
     assert.isTrue(Crypto.isValidPublicKey(pair.publicKey))
