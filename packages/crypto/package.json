@@ -1,6 +1,6 @@
 {
   "name": "@signauth/crypto",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "The SignAuth crypto library.",
   "license": "MIT",
   "scripts": {
