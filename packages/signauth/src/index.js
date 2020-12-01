@@ -10,12 +10,11 @@ class SignAuth {
       throw new Error('expiresIn must be a positive integer')
     }
     this.salt = Crypto.getRandomString(12)
-    this.nonce = Crypto.getRandomBase32String(6)
     this.size = size
     this.expiresIn = expiresIn
   }
 
-  newChallengeForUser(userid) {
+  newChallenge(userid, nonce = 1) {
     if (typeof userid !== 'string' || userid.length === 0) {
       throw new Error('userid must be a not empty string')
     }
@@ -23,7 +22,7 @@ class SignAuth {
       userid: Crypto.b32Hash(userid),
       now: Date.now(),
       expiresIn: this.expiresIn,
-      nonce: this.nonce,
+      nonce,
       bytes: Crypto.toBase32(Crypto.randomBytes(this.size))
     }
     challenge.hash = this.hashChallenge(challenge)
@@ -31,27 +30,26 @@ class SignAuth {
   }
 
   hashChallenge(challenge) {
-    return Crypto.b32Hash(
-        this.salt +
-        challenge.userid +
-        challenge.now +
-        this.expiresIn +
-        this.nonce +
-        challenge.bytes.toString()
-    )
+    try {
+      return Crypto.b32Hash(
+          this.salt +
+          challenge.userid +
+          challenge.now +
+          this.expiresIn +
+          challenge.nonce +
+          challenge.bytes.toString()
+      )
+    } catch (e) {
+      throw new Error('invalid challenge')
+    }
   }
 
   validateChallenge(challenge) {
-    return (
-        challenge.nonce === this.nonce &&
-        this.hashChallenge(challenge) === challenge.hash
-    )
+    return this.hashChallenge(challenge) === challenge.hash
   }
 
   verifySignedChallenge(challenge, signature, publicKey) {
-    if (!this.validateChallenge(challenge)) {
-      throw new Error('the challenge is invalid')
-    }
+    this.validateChallenge(challenge)
     challenge = JSON.stringify(challenge)
     return Crypto.verifySignature(challenge, signature, publicKey)
   }

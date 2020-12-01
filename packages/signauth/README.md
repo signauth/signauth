@@ -22,7 +22,7 @@ const signAuth = new SignAuth()
 
 ### Methods
 
-### signAuth.newChallengeForUser(userid)
+### signAuth.newChallenge(userid)
 Creates a new challenge for the user. `userid` must be a not empty string.
 
 ### signAuth.hashChallenge(challenge)
@@ -49,6 +49,8 @@ Generate a seed from the passphrase and uses the seed to generate a pair of ed25
 Signs a challenge using `secretKey`
 
 ## Example
+
+_The code is not working code. It is to give you an idea. Real code will come with examples._
 
 In the browser when the user puts `userid` and `password` you should call a first time the API to get a challenge for that user. 
 
@@ -77,12 +79,39 @@ On the server side, you will have two api, one to return the challenge, the seco
 const SignAuth = require('signauth')
 const signAuth = new SignAuth()
 
+// login
 get('/new-challenge', function (req, res) {
     let userid = req.query.userid
-    res.json({
-        success: true,
-        challenge: signAuth.newChallengeForUser(userid)
-    })
+    let user = db.getUser(userId))
+    if (user) {
+        res.json({
+            success: true,
+            challenge: signAuth.newChallenge(userid, user.nonce)
+        })
+    } else {
+        res.json({
+            success: false,
+            error: 'user not found. Please signup'
+        })
+    }
+})
+
+// signup
+get('/first-challenge', function (req, res) {
+    let userid = req.query.userid
+    let user = db.getUser(userId))
+    if (!user) {
+        db.createUser(userid, { nonce: 1 })
+        res.json({
+            success: true,
+            challenge: signAuth.newChallenge(userid, 1)
+        })
+    } else {
+        res.json({
+            success: false,
+            error: 'user exists. Please login'
+        })
+    }
 })
 
 get('/get-jwt-token', function (req, res) {
@@ -96,14 +125,18 @@ get('/get-jwt-token', function (req, res) {
                     success: false,
                     error: `wrong key`
                 )
+            } else {
+                db.updateUser(userid, { nonce: nonce + 1 })
+                res.json({
+                    jwt: getJWTToken(userid)
+                })
             }
         } else {
-            // we save it for future logins
-            db.putUser(userid, payload.publicKey)
+            res.json({
+                success: false,
+                error: 'user not found. Please signup'
+            })
         }
-        res.json({
-            jwt: getJWTToken(userid)
-        })
     }
     res.json({
         success: false,
@@ -116,8 +149,10 @@ get('/get-jwt-token', function (req, res) {
 
 
 
-
 ## History
+
+__0.0.5__
+* Using the nonce properly
 
 __0.0.4__
 * Better example in README
@@ -132,14 +167,7 @@ __0.0.1__
 ## Test coverage
 
 ```
-  6 passing (75ms)
 
-----------|---------|----------|---------|---------|-------------------
-File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
-----------|---------|----------|---------|---------|-------------------
-All files |     100 |      100 |     100 |     100 |                   
- index.js |     100 |      100 |     100 |     100 |                   
-----------|---------|----------|---------|---------|-------------------
 ```
 
 
