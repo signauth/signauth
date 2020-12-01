@@ -3,7 +3,7 @@ const assert = chai.assert
 const Crypto = require('../src')
 
 const {
-  password,
+  passphrase,
   b32Hash,
   signaturePair
 } = require('./fixtures')
@@ -59,8 +59,8 @@ describe('#Crypto', function () {
 
   it('should generate a sha3 in b32 format', async function () {
     this.timeout(20000)
-    assert.equal(Crypto.b32Hash(password), b32Hash)
-    assert.equal(Crypto.b32Hash(password, 10), b32Hash.substring(0, 10))
+    assert.equal(Crypto.b32Hash(passphrase), b32Hash)
+    assert.equal(Crypto.b32Hash(passphrase, 10), b32Hash.substring(0, 10))
     assert.isTrue(Crypto.isValidB32Hash(b32Hash))
   })
 
@@ -69,28 +69,28 @@ describe('#Crypto', function () {
     assert.isTrue(Crypto.isValidPublicKey(pair.publicKey))
   })
 
-  it('should derive a valid seed from a password', async function () {
-    let password = 'some random password'
-    let seed = Crypto.seedFromPassword(password)
+  it('should derive a valid seed from a passphrase', async function () {
+    let passphrase = 'some random passphrase'
+    let seed = Crypto.seedFromPassphrase(passphrase)
     assert.isTrue(Crypto.isUint8Array(seed))
     assert.equal(seed.length, 32)
 
     try {
-      Crypto.seedFromPassword(234)
+      Crypto.seedFromPassphrase(234)
     } catch (e) {
-      assert.equal(e.message, 'Password is not a valid string')
+      assert.equal(e.message, 'Not a valid string')
     }
 
     try {
-      Crypto.seedFromPassword('')
+      Crypto.seedFromPassphrase('')
     } catch (e) {
-      assert.equal(e.message, 'Password is not a valid string')
+      assert.equal(e.message, 'Not a valid string')
     }
 
   })
 
   it('should generate an ed25519 key pair from a seed', async function () {
-    let seed = Crypto.seedFromPassword(password)
+    let seed = Crypto.seedFromPassphrase(passphrase)
     let pair = Crypto.generateSignatureKeyPair(seed)
     assert.isTrue(Crypto.isValidPublicKey(pair.publicKey))
     assert.isTrue(Crypto.isValidSecretKey(pair.secretKey))

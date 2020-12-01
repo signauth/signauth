@@ -1,5 +1,5 @@
 module.exports = {
-  password: 'when John breaks the cronicle',
+  passphrase: 'when John breaks the cronicle',
   b32Hash: '1wpsyccjg97zmqcqm5r3t49spab9cijwwk1wa6phth1bmaccqxn',
   signaturePair: {
     publicKey: [

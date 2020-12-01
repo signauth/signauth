@@ -59,13 +59,13 @@ describe('#SignAuth', function () {
   })
 
   it('should get a seed from a password', async function () {
-    let pair = SignAuth.getPairFromPassword(password)
+    let pair = SignAuth.getPairFromPassphrase(password)
     assert.equal(pair.publicKey.join(','), signaturePair.publicKey.join(','))
     assert.equal(pair.secretKey.join(','), signaturePair.secretKey.join(','))
   })
 
   it('should get a signed challenge', async function () {
-    let pair = SignAuth.getPairFromPassword(password)
+    let pair = SignAuth.getPairFromPassphrase(password)
     let challenge = signAuth.newChallengeForUser(userid)
     let signature = SignAuth.signChallenge(challenge, pair.secretKey)
     assert.isTrue(signAuth.verifySignedChallenge(challenge, signature, pair.publicKey))
@@ -81,7 +81,7 @@ describe('#SignAuth', function () {
 
   it('should get a challenge payload', async function () {
     let challenge = signAuth.newChallengeForUser(userid)
-    let pair = SignAuth.getPairFromPassword(password)
+    let pair = SignAuth.getPairFromPassphrase(password)
     let payload = SignAuth.getPayload(challenge, pair)
     assert.isTrue(signAuth.verifyPayload(payload))
 

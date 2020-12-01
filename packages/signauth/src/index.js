@@ -74,8 +74,8 @@ class SignAuth {
     }
   }
 
-  static getPairFromPassword(password) {
-    let seed = Crypto.seedFromPassword(password)
+  static getPairFromPassphrase(passphrase) {
+    let seed = Crypto.seedFromPassphrase(passphrase)
     return Crypto.generateSignatureKeyPair(seed)
   }
 

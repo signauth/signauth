@@ -25,8 +25,8 @@ class Crypto {
     return Crypto.bs32.encode(data)
   }
 
-  static fromBase32(data) {
-    return Crypto.bs32.decode(data)
+  static fromBase32(base32String) {
+    return Crypto.bs32.decode(base32String)
   }
 
   static getRandomBase32String(size) {
@@ -52,8 +52,8 @@ class Crypto {
     return Crypto.bs32.encode(Crypto.SHA3(data)).substring(0, size)
   }
 
-  static isValidB32Hash(hash) {
-    return Crypto.bs32.decode(hash).length === 32
+  static isValidB32Hash(base32Hash) {
+    return Crypto.bs32.decode(base32Hash).length === 32
   }
 
   static hexToUint8Array(hexStr) {
@@ -72,15 +72,15 @@ class Crypto {
     return !re.test(str)
   }
 
-  static isUint8Array(key) {
-    return typeof key === 'object' && key.constructor === Uint8Array
+  static isUint8Array(data) {
+    return typeof data === 'object' && data.constructor === Uint8Array
   }
 
-  static seedFromPassword(password) {
-    if (typeof password === 'string' && password.length > 0) {
-      return Uint8Array.from(Crypto.SHA3(password))
+  static seedFromPassphrase(passphrase) {
+    if (typeof passphrase === 'string' && passphrase.length > 0) {
+      return Uint8Array.from(Crypto.SHA3(passphrase))
     } else {
-      throw new Error('Password is not a valid string')
+      throw new Error('Not a valid string')
     }
   }
 
@@ -94,17 +94,17 @@ class Crypto {
     return pair
   }
 
-  static isValidPublicKey(pk) {
-    if (pk instanceof Uint8Array) {
-      return pk.length === 32
+  static isValidPublicKey(key) {
+    if (key instanceof Uint8Array) {
+      return key.length === 32
     } else {
       return false
     }
   }
 
-  static isValidSecretKey(pk) {
-    if (pk instanceof Uint8Array) {
-      return pk.length === 64
+  static isValidSecretKey(key) {
+    if (key instanceof Uint8Array) {
+      return key.length === 64
     } else {
       return false
     }
