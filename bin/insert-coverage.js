@@ -4,10 +4,8 @@ const fs = require('fs')
 let target = process.argv[2]
 
 if (![
-  'core',
-  'helpers',
-  'signauth',
-  'utils'
+  'crypto',
+  'signauth'
 ].includes(target)) {
   console.error(`Wrong target: ${target}`)
   // eslint-disable-next-line no-process-exit

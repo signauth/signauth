@@ -120,6 +120,9 @@ get('/get-jwt-token', function (req, res) {
 
 ## History
 
+__0.0.4__
+* Better example in README
+
 __0.0.3__
 * completing methods and tests 
 
@@ -130,7 +133,14 @@ __0.0.1__
 ## Test coverage
 
 ```
+  6 passing (75ms)
 
+----------|---------|----------|---------|---------|-------------------
+File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+----------|---------|----------|---------|---------|-------------------
+All files |     100 |      100 |     100 |     100 |                   
+ index.js |     100 |      100 |     100 |     100 |                   
+----------|---------|----------|---------|---------|-------------------
 ```
 
 
