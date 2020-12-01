@@ -118,7 +118,7 @@ get('/get-jwt-token', function (req, res) {
 
 ## History
 
-__0.0.2__
+__0.0.3__
 * completing methods and tests 
 
 __0.0.1__
