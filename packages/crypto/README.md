@@ -78,7 +78,7 @@ Verifies the message
 
 ## History
 
-__0.0.2__
+__0.0.3__
 * completing methods and testing  
 
 __0.0.1__
