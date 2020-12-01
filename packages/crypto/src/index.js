@@ -76,6 +76,14 @@ class Crypto {
     return typeof key === 'object' && key.constructor === Uint8Array
   }
 
+  static seedFromPassword(password) {
+    if (typeof password === 'string' && password.length > 0) {
+      return Uint8Array.from(Crypto.SHA3(password))
+    } else {
+      throw new Error('Password is not a valid string')
+    }
+  }
+
   static generateSignatureKeyPair(seed) {
     let pair
     if (seed) {

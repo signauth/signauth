@@ -8,8 +8,9 @@ describe('#SignAuth', function () {
 
   it('should generate a new challenge', async function () {
     let challenge = SignAuth.newChallenge()
-
-    console.log(JSON.stringify(challenge))
+    console.log(challenge)
+    console.log(SignAuth.challengeToString(challenge))
+    console.log(SignAuth.challengeFromString(SignAuth.challengeToString(challenge)))
 
     assert.isTrue(challenge[0] <= Date.now())
     assert.isTrue(challenge[2].length === 8)

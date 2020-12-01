@@ -21,9 +21,44 @@ class SignAuth {
   }
 
   static challengeToString(challenge) {
+    return [challenge[0], challenge[1], challenge[2].join(',')].join(';')
+  }
 
+  static challengeFromString(challenge) {
+    return challenge.split(';').map((elem, index) => {
+      if (index === 2) {
+        return Uint8Array.from(elem.split(','))
+      } else {
+        return parseInt(elem)
+      }
+    })
+  }
+
+  static getPairFromPassword(password) {
+    let seed = Crypto.seedFromPassword(password)
+    return Crypto.generateSignatureKeyPair(seed)
+  }
+
+  static signChallenge(challenge, secretKey) {
+    if (typeof challenge !== 'string') {
+      challenge = SignAuth.challengeToString(challenge)
+    }
+    return Crypto.getSignature(challenge, secretKey)
+  }
+
+  static verifyChallenge(challenge, expectedExpiresIn, signature, publicKey) {
+    if (typeof challenge !== 'string') {
+      challenge = SignAuth.challengeToString(challenge)
+    }
+    if (SignAuth.verifyChallenge(challenge, expectedExpiresIn)) {
+      return Crypto.verifySignature(challenge, signature, publicKey)
+    } else {
+      return false
+    }
   }
 
 }
+
+SignAuth.Crypto = Crypto
 
 module.exports = SignAuth

@@ -69,10 +69,29 @@ describe('#Crypto', function () {
     assert.isTrue(Crypto.isValidPublicKey(pair.publicKey))
   })
 
+  it('should derive a valid seed from a password', async function () {
+    let password = 'some random password'
+    let seed = Crypto.seedFromPassword(password)
+    assert.isTrue(Crypto.isUint8Array(seed))
+    assert.equal(seed.length, 32)
+
+    try {
+      Crypto.seedFromPassword(234)
+    } catch (e) {
+      assert.equal(e.message, 'Password is not a valid string')
+    }
+
+    try {
+      Crypto.seedFromPassword('')
+    } catch (e) {
+      assert.equal(e.message, 'Password is not a valid string')
+    }
+
+  })
+
   it('should generate an ed25519 key pair from a seed', async function () {
     let password = 'when John breaks the cronicle'
-    let hash = Crypto.SHA3(password)
-    let seed = Uint8Array.from(hash)
+    let seed = Crypto.seedFromPassword(password)
     let pair = Crypto.generateSignatureKeyPair(seed)
     assert.isTrue(Crypto.isValidPublicKey(pair.publicKey))
     assert.isTrue(Crypto.isValidSecretKey(pair.secretKey))
