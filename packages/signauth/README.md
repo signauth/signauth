@@ -2,6 +2,16 @@
 
 SignAuth is a protocol for web authentication using challenges and signatures (like Fido2) but derivating the keys from a password.
 
+## Why 
+
+When you authenticate yourself on Twitter, Facebook, Pinterest, etc. the website sends you password to the server. There, the password is derivated before being saved in the database. However, an employee could set a backdoor at that level and steal your password.
+
+SignAuth solves entirely the problem because it uses your password locally to sign a challenge. This way, the server receive a public key and stores that.
+
+## The flow
+
+  <img align="center" src="https://raw.githubusercontent.com/signauth/signauth/master/assets/signauth-flow.png"/>
+
 
 ## Usage
 
