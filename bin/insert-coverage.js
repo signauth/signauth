@@ -3,6 +3,12 @@ const fs = require('fs')
 
 let target = process.argv[2]
 
+function decolorize(str) {
+  // eslint-disable-next-line no-control-regex
+  return str.replace(/\x1b\[[0-9;]*m/g, '')
+}
+
+
 if (![
   'crypto',
   'signauth'
@@ -16,6 +22,7 @@ let coverage = fs.readFileSync(path.resolve(__dirname, '../packages', target, 'c
 
 let result = []
 for (let row of coverage) {
+  row = decolorize(row)
 
   if (/ {2}\d+ failing/.test(row)) {
     // eslint-disable-next-line no-process-exit
