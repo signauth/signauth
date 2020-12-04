@@ -59,7 +59,7 @@ Signs a challenge using `secretKey`
 
 ## Example
 
-_The code is not working code. It is to give you an idea. Real code will come with examples._
+__The code is not working code. It is to give you an idea. For real code take a look at [SignAuth React/Express Boilerplate](https://github.com/signauth/signauth-react-express-boilerplate).__
 
 In the browser when the user puts `userid` and `password` you should call a first time the API to get a challenge for that user. 
 
@@ -74,7 +74,7 @@ const passphrase = userid + password
 
     const challenge = await clientAPI('/new-challenge?userid=' + userid)
     const pair = SignAuth.getPairFromPassphrase(passphrase)
-    const payload = SignAuth.getPayload(challenge, pair.secretKey)
+    const payload = SignAuth.getPayload(challenge, pair)
     const jwt = await clientAPI('/get-jwt-token?payload=' + JSON.stringify(payload))
     ...
 
