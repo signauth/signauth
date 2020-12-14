@@ -1,7 +1,7 @@
 const chai = require('chai')
 const assert = chai.assert
 
-const SignAuth = require('../src/index')
+const SignAuth = require('../src')
 
 const {
   password,

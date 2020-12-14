@@ -156,9 +156,11 @@ get('/get-jwt-token', function (req, res) {
 
 ```
 
-
-
 ## History
+
+__0.1.0__
+* Moving from a monorepo to a standard repo 
+* Remove `@signauth/crypto` to use `@secrez/core` instead
 
 __0.0.5__
 * Using the nonce properly
@@ -176,7 +178,7 @@ __0.0.1__
 ## Test coverage
 
 ```
-  6 passing (80ms)
+  6 passing (79ms)
 
 ----------|---------|----------|---------|---------|-------------------
 File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 

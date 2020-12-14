@@ -1,4 +1,4 @@
-const Crypto = require('@signauth/crypto')
+const {Crypto} = require('@secrez/core')
 
 class SignAuth {
 
