@@ -158,7 +158,7 @@ get('/get-jwt-token', function (req, res) {
 
 ## History
 
-__0.1.0__
+__0.1.2__
 * Moving from a monorepo to a standard repo 
 * Remove `@signauth/crypto` to use `@secrez/core` instead
 
@@ -178,7 +178,7 @@ __0.0.1__
 ## Test coverage
 
 ```
-  6 passing (79ms)
+  6 passing (71ms)
 
 ----------|---------|----------|---------|---------|-------------------
 File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
