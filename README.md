@@ -160,7 +160,7 @@ get('/get-jwt-token', function (req, res) {
 
 __0.1.2__
 * Moving from a monorepo to a standard repo 
-* Remove `@signauth/crypto` to use `@secrez/core` instead
+* Remove `@signauth/crypto` to use `@secrez/crypto` instead
 
 __0.0.5__
 * Using the nonce properly
