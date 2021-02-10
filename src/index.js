@@ -1,4 +1,4 @@
-const Crypto = require('@secrez/crypto')
+const Crypto = require('./Crypto')
 
 class SignAuth {
 

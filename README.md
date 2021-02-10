@@ -158,6 +158,9 @@ get('/get-jwt-token', function (req, res) {
 
 ## History
 
+__0.1.3__
+* Reverse use again `@signauth/crypto` instead of `@secrez/crypto`
+
 __0.1.2__
 * Moving from a monorepo to a standard repo 
 * Remove `@signauth/crypto` to use `@secrez/crypto` instead
