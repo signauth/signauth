@@ -1,6 +1,6 @@
 {
   "name": "signauth",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "license": "MIT",
   "scripts": {
     "lint": "eslint -c .eslintrc 'src/**/*.js'",
@@ -10,9 +10,13 @@
     "pre-push": "node bin/insert-coverage.js"
   },
   "dependencies": {
-    "@secrez/crypto": "~0.1.2"
+    "base-x": "^3.0.8",
+    "sha3": "^2.1.2",
+    "tweetnacl": "^1.0.3",
+    "tweetnacl-util": "^0.15.1"
   },
   "devDependencies": {
+    "@secrez/utils": "^0.1.6",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "eslint": "^6.8.0",

@@ -158,6 +158,9 @@ get('/get-jwt-token', function (req, res) {
 
 ## History
 
+__0.1.3__
+* Reverse use again `@signauth/crypto` instead of `@secrez/crypto`
+
 __0.1.2__
 * Moving from a monorepo to a standard repo 
 * Remove `@signauth/crypto` to use `@secrez/crypto` instead
@@ -178,14 +181,16 @@ __0.0.1__
 ## Test coverage
 
 ```
-  6 passing (71ms)
+  11 passing (117ms)
 
-----------|---------|----------|---------|---------|-------------------
-File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
-----------|---------|----------|---------|---------|-------------------
-All files |     100 |      100 |     100 |     100 |                   
- index.js |     100 |      100 |     100 |     100 |                   
-----------|---------|----------|---------|---------|-------------------
+-----------|---------|----------|---------|---------|-------------------
+File       | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-----------|---------|----------|---------|---------|-------------------
+All files  |   97.01 |    87.88 |     100 |   97.01 |                   
+ Crypto.js |   94.87 |       75 |     100 |   94.87 | 76,84             
+ index.js  |     100 |      100 |     100 |     100 |                   
+-----------|---------|----------|---------|---------|-------------------
+
 ```
 
 
