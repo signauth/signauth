@@ -34,6 +34,12 @@ class Crypto {
     return crypto.randomBytes(length).toString(encode)
   }
 
+  static getRandomBase32String(size) {
+    let i = Math.round(size / 2)
+    let j = i + size
+    return Crypto.bs32.encode(Buffer.from(randomBytes(2 * size))).substring(i, j)
+  }
+
   static b32Hash(data, size) {
     if (!Buffer.isBuffer(data)) {
       data = Buffer.from(data)
