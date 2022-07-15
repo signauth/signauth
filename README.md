@@ -59,7 +59,7 @@ Signs a challenge using `secretKey`
 
 ## Example
 
-__The code is not working code. It is to give you an idea. For real code take a look at [SignAuth React/Express Boilerplate](https://github.com/signauth/signauth-react-express-boilerplate).__
+__The code below is not working code. It is to give you an idea. For real code take a look at [SignAuth React/Express Boilerplate](https://github.com/signauth/signauth-react-express-boilerplate).__
 
 In the browser when the user puts `userid` and `password` you should call a first time the API to get a challenge for that user. 
 
