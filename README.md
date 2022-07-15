@@ -193,6 +193,12 @@ All files  |   97.01 |    87.88 |     100 |   97.01 |
 
 ```
 
+## Warning
+
+SignAuth is vulnerable to phishing. A fraudolent website can pretend to be the legit one and
+ask you to digit username and password, and use them immediately on the right app to get access to your account. It is not different that the
+standard approach, but you must know that, despite the cryptography used, it is not a Fido2 that interact with the browser to be sure that it is
+on the right website. So, be careful.
 
 ## Copyright
 
